@@ -9,4 +9,4 @@ global using BuildingBlocks.Behaviors;
 global using FluentValidation;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Mvc;
-  
+global using BuildingBlocks.Exceptions;
