@@ -14,12 +14,13 @@ builder.Services.AddMediatR(c =>
 {
     c.RegisterServicesFromAssemblies(assembly);
     c.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    c.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddMarten(opt =>
-    {
+    { 
         opt.Connection(builder.Configuration.GetConnectionString("Database")!);
     }).UseLightweightSessions();
 
