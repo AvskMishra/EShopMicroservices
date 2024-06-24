@@ -1,7 +1,5 @@
+
 #region CREATE BUILDER
-
-using BuildingBlocks.Exceptions.Handler;
-
 var builder = WebApplication.CreateBuilder(args);
 
 #endregion
@@ -23,6 +21,9 @@ builder.Services.AddMarten(opt =>
     { 
         opt.Connection(builder.Configuration.GetConnectionString("Database")!);
     }).UseLightweightSessions();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
 
 builder.Services.AddCarter();
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
