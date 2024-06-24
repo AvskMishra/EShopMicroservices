@@ -1,7 +1,6 @@
 
 #region CREATE BUILDER
 var builder = WebApplication.CreateBuilder(args);
-
 #endregion
 
 var assembly = typeof(Program).Assembly;
@@ -28,6 +27,9 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddCarter();
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
+
 #endregion
 
 #region APPLICATION BUILD
@@ -42,6 +44,12 @@ app.UseExceptionHandler(options => { });
 
 app.MapCarter();
 
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+    
 #endregion
 
 #region APPLICATION RUN
